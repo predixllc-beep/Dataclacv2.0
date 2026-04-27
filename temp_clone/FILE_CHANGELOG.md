@@ -1,0 +1,48 @@
+# File Changelog
+
+- **Added** `AUDIT_REPORT.md`: To analyze root issues with the basic repository.
+- **Added** `TECH_DEBT.md`: Documenting technical debt regarding order architecture.
+- **Added** `RISK_GAPS.md`: Highlighting the lack of exposure tools and kill switches.
+- **Added** `OBSERVABILITY.md`: Logs, metrics, and healthchecks plan.
+- **Added** `SECURITY_REVIEW.md`: Hardening plan.
+- **Added** `IMPLEMENTATION_PLAN.md`: Strategic roadmap.
+- **Added** `backend/connectors/polymarket_connector.py`: Native order placement for Polymarket.
+- **Added** `backend/connectors/kalshi_connector.py`: Implementation for Kalshi API.
+- **Added** `backend/connectors/predictfun_connector.py`: Abstraction for Predict.fun API.
+- **Added** `backend/connectors/unified_market_router.py`: Smart order routing system.
+- **Added** `backend/data_feeds/oddspipe_client.py`: External signal/odds processing.
+- **Added** `backend/data_feeds/sports_data_adapter.py`: Sportradar abstraction.
+- **Added** `backend/data_feeds/cross_market_normalizer.py`: Event entity unionization.
+- **Added** `backend/agents/market_maker_agent.py`: MM algorithm interface.
+- **Added** `backend/agents/supervisor_agent.py`: Master intelligence mapping.
+- **Added** `backend/risk/kill_switch.py`: The portfolio dead-man switch.
+- **Added** `backend/risk/position_limits.py`: Max exposure definition module.
+- **Added** `backend/strategies/event_arb.py`: Cross-market execution logic.
+- **Added** `backend/monitoring/metrics.py`: Prometheus export module.
+- **Added** `backend/oms/order_manager.py`: Proper state machine to prevent order duplication.
+- **Added** `backend/ems/execution_manager.py`: Intelligent retry and exchange ID mapping logic.
+- **Added** `backend/tests/test_risk.py`: Unit tests for exposure layers.
+- **Added** `backend/tests/test_anomaly.py`: Unit tests for anomaly guard.
+- **Added** `docs/REPO_MAP.md`, `docs/ARCHITECTURE_GRAPH.md`: System topology documentation.
+- **Added** `AUDIT_CRITICAL.md`, `BUG_HUNT_REPORT.md`, `PRODUCTION_BLOCKERS.md`: Security and execution audits.
+- **Added** `SELF_CONTAINED_ARCHITECTURE.md`: Documentation of the internal OS.
+- **Added** `INTERNALIZED_IMPORTS.md`: Documentation of open-source patterns ported natively.
+- **Added** `OMS_DESIGN.md` & `EMS_DESIGN.md`: Deep dives into purely local execution engines.
+- **Added** `DEPENDENCY_MINIMIZATION.md`: Strict rules on keeping core lightweight.
+- **Added** `backend/connectors/exchange_base.py`: CCXT-style native base class to negate external libraries.
+- **Added** `backend/execution/inventory_manager.py`: Ported Hummingbot skew inventory limiters.
+- **Added** `backend/strategies/strategy_base.py`: Ported Freqtrade lifecycle strategy structure.
+- **Added** `backend/ems/fill_reconciliation.py`: End-of-day discrepancy check.
+- **Added** `backend/portfolio/accounting.py`: Pure capital allocation models.
+
+## Institutional OMS/EMS and Trading OS Upgrade
+- **Added** `OMS_ARCHITECTURE.md`, `EMS_ARCHITECTURE.md`, `PORTFOLIO_ENGINE.md`, `RISK_GATEWAY.md`, `FAILURE_ENGINEERING.md`, `SELF_CONTAINED_TRADING_OS.md`, `WHAT_WAS_MISSING_AND_ADDED.md`
+- **Reorganized** OMS into `backend/execution/oms/`: `order_manager.py`, `order_state_machine.py`, `order_validator.py`, `order_router.py`, `execution_instructions.py`.
+- **Reorganized** EMS into `backend/execution/ems/`: `execution_engine.py`, `smart_router.py`, `slippage_controller.py`, `venue_selector.py`, `execution_algorithms.py`.
+- **Added** Portfolio subsystem: `ledger.py`, `pnl_engine.py`, `exposure_book.py`.
+- **Added** Risk Gateway: `risk_gateway.py`.
+- **Added** State recovery & persistence: `event_store.py`, `recovery_engine.py`, `shadow_execution.py`.
+- **Added** Orchestration: `trade_lifecycle_orchestrator.py`.
+- **Added** Reliability hooks (circuit breakers, latency guarding): `circuit_breakers.py`, `latency_guard.py`, `failover_engine.py`.
+- **Added** Microstructure alpha: `orderbook_microstructure.py`, `liquidity_imbalance.py`, `adverse_selection_guard.py`.
+- **Deleted** legacy `backend/oms/` and `backend/ems/` directories to favor the proper structure.

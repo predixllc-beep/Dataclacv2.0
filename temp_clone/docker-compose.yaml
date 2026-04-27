@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  orchestrator:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - POLYMARKET_KEY=${POLYMARKET_KEY}
+      - KALSHI_API_KEY=${KALSHI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - redis
+    ports:
+      - "8000:8000"
+
+  worker-oasis:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.worker
+    environment:
+      - AGENT_TYPE=oasis
+      - REDIS_URL=redis://redis:6379
+      - TWITTER_BEARER_TOKEN=${TWITTER_BEARER_TOKEN}
+
+  worker-onyx:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.worker
+    environment:
+      - AGENT_TYPE=onyx
+      - REDIS_URL=redis://redis:6379
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"

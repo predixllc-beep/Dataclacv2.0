@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # The UI Dashboard
+  frontend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - db
+      - redis
+
+  # Python Execution Core & Agents
+  quant-engine:
+    build: 
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://quantadmin:securepassword@db:5432/polyclaw_production
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+
+  # High Speed In-Memory Queues
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  # Persistent Ledger (Positions, Trades, PnL)
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=quantadmin
+      - POSTGRES_PASSWORD=securepassword
+      - POSTGRES_DB=polyclaw_production
+    ports:
+      - "5432:5432"
+
+  # Observability
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./backend/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
